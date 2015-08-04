@@ -137,23 +137,28 @@ class DockerTask extends DefaultTask {
 
     void createTarArchive(File tarFile, Closure copySpec) {
         final tmpDir = Files.createTempDir()
-        logger.info("Creating tar archive {} from {}", tarFile, tmpDir)
-        /* copy all files to temporary directory */
-        project.copy {
-            with {
-                into('/') {
-                    with copySpec
-                }
-            }
-            into tmpDir
-        }
-        /* create tar archive */
-        new AntBuilder().tar(
-                destfile: tarFile,
-                basedir: tmpDir
-        )
-    }
+        try {
 
+            logger.info("Creating tar archive {} from {}", tarFile, tmpDir)
+            /* copy all files to temporary directory */
+            project.copy {
+                with {
+                    into('/') {
+                        with copySpec
+                    }
+                }
+                into tmpDir
+            }
+            /* create tar archive */
+            new AntBuilder().tar(
+                    destfile: tarFile,
+                    basedir: tmpDir
+            )
+        } finally {
+            if (!tmpDir.deleteDir())
+                println "tmpDir $tmpDir not deleted"
+        }
+    }
     void workingDir(String wd) {
         instructions.add("WORKDIR ${wd}")
     }
