@@ -250,9 +250,9 @@ class DockerTask extends DefaultTask {
 
         if (!dryRun) {
             DockerClient client = getClient()
-            println client.buildImage(stageDir, tag)
+            client.buildImage(stageDir, tag)
             if (push) {
-                println client.pushImage(tag)
+                client.pushImage(tag)
             }
             if (save) {
                 def file = getImageFile()

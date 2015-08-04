@@ -63,12 +63,11 @@ public class JavaDockerClient implements DockerClient {
     }
 
     @Override
-    public String pushImage(String tag) {
+    public void pushImage(String tag) {
         Preconditions.checkNotNull(tag, "Image tag can not be null.");
         Preconditions.checkArgument(!tag.isEmpty(), "Image tag can not be empty.");
         final PushImageResultCallback pushImageResultCallback = dockerClient.pushImageCmd(tag).exec(new PushImageResultCallback());
         pushImageResultCallback.awaitSuccess();
-        return "";
     }
 
     @Override
