@@ -1,8 +1,4 @@
-# Gradle Docker plugin
-
-[![Join the chat at https://gitter.im/Transmode/gradle-docker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Transmode/gradle-docker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Build Status](https://drone.io/github.com/Transmode/gradle-docker/status.png)](https://drone.io/github.com/Transmode/gradle-docker/latest) [ ![Download](https://api.bintray.com/packages/transmode/gradle-plugins/gradle-docker/images/download.png) ](https://bintray.com/transmode/gradle-plugins/gradle-docker/_latestVersion)
+# Gradle Docker plugin [![Build Status](https://travis-ci.org/YouCruit/gradle-docker.svg?branch=master)](https://travis-ci.org/YouCruit/gradle-docker)
 
 This plugin for [Gradle](http://www.gradle.org/) adds the capability to build and publish [Docker](http://docker.io/) images from the build script. It is available through [jCenter](https://bintray.com/transmode/gradle-plugins/gradle-docker/view) and  [MavenCentral](http://search.maven.org/#browse%7C566382288).
 
@@ -34,7 +30,7 @@ apply plugin: 'docker'
 buildscript {
     repositories { jcenter() }
     dependencies {
-        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'com.youcruit:gradle-docker:1.2.1'
     }
 }
 
@@ -165,7 +161,7 @@ The plugin is built with Gradle 2.x and thus needs version 2.0 or higher to work
 buildscript {
     // ...
     dependencies {
-         classpath 'se.transmode.gradle:gradle-docker:1.2'
+         classpath 'com.youcruit:gradle-docker:1.2.1'
          classpath 'org.codehaus.groovy:groovy-backports-compat23:2.3.5'
     }
 }
