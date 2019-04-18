@@ -68,7 +68,19 @@ class DockerTaskTest {
     public void nonJavaDefaultBaseImage() {
         def project = createProject()
         def task = createTask(project)
-        assertThat task.baseImage, is(equalTo(DockerTask.DEFAULT_IMAGE))
+        assertThat task.getBaseImage(), is(equalTo(DockerTask.DEFAULT_IMAGE))
+    }
+
+    @Test
+    public void defaultImageIsNotLookedUpWhenBaseImageGiven() {
+        def project = createProject()
+        def task = createTask(project)
+
+        project.extensions.extraProperties.set("targetCompatibility", JavaVersion.VERSION_HIGHER)
+        assertThat project.hasProperty("targetCompatibility"), is(equalTo(true))
+
+        task.baseImage = "foo"
+        assertThat task.getBaseImage(), is(equalTo("foo"))
     }
 
     @Test
@@ -76,14 +88,14 @@ class DockerTaskTest {
         def project = createProject()
         def task = createTask(project)
         project[DockerPlugin.EXTENSION_NAME].baseImage = "extensionBase"
-        assertThat task.baseImage, is(equalTo("extensionBase"))
+        assertThat task.getBaseImage(), is(equalTo("extensionBase"))
     }
 
     @Test
     public void overrideBaseImageInTask() {
         def task = createTask(createProject())
         task.baseImage = "taskBase"
-        assertThat task.baseImage, is(equalTo("taskBase"))
+        assertThat task.getBaseImage(), is(equalTo("taskBase"))
     }
 
     @Test
@@ -94,7 +106,7 @@ class DockerTaskTest {
         def testVersion = JavaVersion.VERSION_1_6
         project.targetCompatibility = testVersion
         assertThat project[DockerPlugin.EXTENSION_NAME].baseImage, is(nullValue())
-        assertThat task.baseImage,
+        assertThat task.getBaseImage(),
                 is(equalTo(JavaBaseImage.imageFor(testVersion).imageName))
     }
 
