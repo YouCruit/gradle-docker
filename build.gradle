@@ -1,9 +1,15 @@
 apply plugin: 'groovy'
+apply plugin: "com.jfrog.artifactory"
 
 buildscript {
     // inspired by https://github.com/Netflix/gradle-template
     apply from: file('gradle/buildscript.gradle'), to: buildscript
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.9.6"
+    }
 }
+
+
 
 repositories {
     jcenter()
