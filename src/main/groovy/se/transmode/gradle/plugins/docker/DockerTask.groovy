@@ -150,6 +150,7 @@ class DockerTask extends DefaultTask {
         /* create tar archive */
         new AntBuilder().tar(
                 destfile: tarFile,
+                longfile: "gnu",
                 basedir: tmpDir
         )
     }
