@@ -107,9 +107,18 @@ class DockerTask extends DefaultTask {
         stageBacklog = []
         applicationName = project.name
         stageDir = new File(project.buildDir, "docker")
+
+        dockerBinary = project[DockerPlugin.EXTENSION_NAME].dockerBinary
+        maintainer = project[DockerPlugin.EXTENSION_NAME].maintainer
+        registry = project[DockerPlugin.EXTENSION_NAME].registry
+        useApi = project[DockerPlugin.EXTENSION_NAME].useApi
+        hostUrl = project[DockerPlugin.EXTENSION_NAME].hostUrl
+        apiUsername = project[DockerPlugin.EXTENSION_NAME].apiUsername
+        apiPassword = project[DockerPlugin.EXTENSION_NAME].apiPassword
+        apiEmail = project[DockerPlugin.EXTENSION_NAME].apiEmail
     }
 
-    void addFile(String source, String destination='/') {
+    void addFile(String source, String destination = '/') {
         addFile(project.file(source), destination)
     }
 

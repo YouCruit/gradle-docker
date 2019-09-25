@@ -41,7 +41,6 @@ class DockerPlugin implements Plugin<Project> {
         project.plugins.withType(ApplicationPlugin.class).all {
             addDistDockerTask(project)
         }
-        configureDockerTasks(project)
     }
 
     private void addDistDockerTask(Project project) {
@@ -81,27 +80,5 @@ class DockerPlugin implements Plugin<Project> {
         }
         logger.info("Adding docker extension");
         return extension
-    }
-
-    private void configureDockerTasks(Project project) {
-        project.tasks.withType(DockerTask.class).all { task ->
-            applyTaskDefaults(task)
-        }
-        logger.info("Applying docker defaults to tasks of type 'Docker'");
-    }
-
-    private void applyTaskDefaults(task) {
-        // @todo: don't use conventionMapping as it is an internal mechanism
-        //        see http://forums.gradle.org/gradle/topics/how_do_you_use_a_conventionmapping_to_do_the_following
-        task.conventionMapping.with {
-            dockerBinary = { extension.dockerBinary }
-            maintainer = { extension.maintainer }
-            registry = { extension.registry }
-            useApi = { extension.useApi }
-            hostUrl = { extension.hostUrl }
-            apiUsername = { extension.apiUsername }
-            apiPassword = { extension.apiPassword }
-            apiEmail = { extension.apiEmail }
-        }
     }
 }
