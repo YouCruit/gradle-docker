@@ -1,5 +1,4 @@
 apply plugin: 'maven-publish'
-apply plugin: "com.jfrog.artifactory"
 
 publishing {
     publications {
@@ -13,7 +12,7 @@ publishing {
 
                     appendNode('name', 'gradle-docker')
                     appendNode('description', 'Gradle plugin to build und publish Docker images from the build script.')
-                    appendNode('url', 'https://github.com/Transmode/gradle-docker')
+                    appendNode('url', 'https://github.com/YouCruit/gradle-docker/')
                     appendNode('inceptionYear', '2013')
 
                     appendNode('licenses').appendNode('license').with {
@@ -32,43 +31,30 @@ publishing {
 
                     appendNode('issueManagement').with {
                         appendNode('system', 'github')
-                        appendNode('url', 'https://github.com/Transmode/gradle-docker/issues')
+                        appendNode('url', 'https://github.com/YouCruit/gradle-docker/issues')
                     }
 
                     appendNode('scm').with {
-                        appendNode('connection', 'scm:git@github.com/Transmode/gradle-docker.git')
-                        appendNode('developerConnection', 'scm:git@github.com/Transmode/gradle-docker.git')
-                        appendNode('url', 'scm:git://github.com/Transmode/gradle-docker.git')
+                        appendNode('connection', 'scm:git@github.com/YouCruit/gradle-docker.git')
+                        appendNode('developerConnection', 'scm:git@github.com/YouCruit/gradle-docker.git')
+                        appendNode('url', 'scm:git://github.com/YouCruit/gradle-docker.git')
                     }
                 }
             }
         }
     }
-
-    repositories {
-        maven {
-            url 'https://api.bintray.com/maven/transmode/gradle-plugins/gradle-docker'
-            credentials {
-                username = bintrayUser
-                password = bintrayKey
-            }
-        }
-    }
 }
 
-artifactory {
-    contextUrl = artifactoryUrl
-    resolve {
-        repoKey = "repo"
-    }
-    publish {
-        repository {
-            repoKey = artifactoryRepo
-            username = bintrayUser
-            password = bintrayKey
-        }
-        defaults {
-            publications ('maven')
-        }
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    publications = ['maven']
+    publish = true
+    pkg {
+        repo = 'YouCruit'
+        name = "gradle-docker"
+        userOrg = 'youcruit'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/YouCruit/gradle-docker.git'
     }
 }
