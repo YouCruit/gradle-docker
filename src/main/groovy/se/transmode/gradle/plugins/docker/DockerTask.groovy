@@ -43,14 +43,12 @@ class DockerTask extends DefaultTask {
     @Input
     String applicationName
     // What to tag the created docker image with (default: group/applicationName)
-    @Input
     String tag
     // Which version to use along with the tag (default: latest)
-    @Input
-    String tagVersion
+    String tagVersion = ""
     // Whether or not to execute docker to build the image (default: false)
     @Input
-    Boolean dryRun
+    Boolean dryRun = false
     // Whether or not to push the image into the registry (default: false)
     @Input
     Boolean push
@@ -100,15 +98,13 @@ class DockerTask extends DefaultTask {
     @Input
     def instructions
     // Dockerfile staging area i.e. context dir
-    @Input
     File stageDir
     // Tasks necessary to setup the stage before building an image
-    @Input
     def stageBacklog
     
     // Should we use Docker's remote API instead of the docker executable
     @Input
-    Boolean useApi
+    Boolean useApi = false
     // URL of the remote Docker host (default: localhost)
     @Input
     String hostUrl
@@ -281,7 +277,8 @@ class DockerTask extends DefaultTask {
 
     }
 
-    private String getImageTag() {
+    @Input
+    String getImageTag() {
         String tag
         tag = this.tag ?: getDefaultImageTag()
         return appendImageTagVersion(tag)
