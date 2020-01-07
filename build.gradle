@@ -16,8 +16,9 @@ repositories {
 apply from: file('gradle/idea.gradle')
 apply from: file('gradle/publish.gradle')
 
-task wrapper(type: Wrapper) {
+wrapper {
     gradleVersion = '4.10.3'
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 sourceSets {
@@ -53,7 +54,6 @@ dependencies {
 task integTest(type: Test) {
     group = 'verification'
     description = 'Runs the integration tests.'
-    testClassesDir = sourceSets.integTest.output.classesDir
     classpath = sourceSets.integTest.runtimeClasspath
 
 }

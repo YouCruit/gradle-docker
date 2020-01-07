@@ -20,6 +20,7 @@ import com.google.common.io.Files
 import org.gradle.api.DefaultTask
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 import se.transmode.gradle.plugins.docker.client.DockerClient
@@ -33,20 +34,28 @@ class DockerTask extends DefaultTask {
     public static final String DEFAULT_IMAGE = 'ubuntu'
 
     // full path to the docker executable
+    @Input
     String dockerBinary
     // Name and Email of the image maintainer
+    @Input
     String maintainer
     // Name of the application being wrapped into a docker image (default: project.name)
+    @Input
     String applicationName
     // What to tag the created docker image with (default: group/applicationName)
+    @Input
     String tag
     // Which version to use along with the tag (default: latest)
+    @Input
     String tagVersion
     // Whether or not to execute docker to build the image (default: false)
+    @Input
     Boolean dryRun
     // Whether or not to push the image into the registry (default: false)
+    @Input
     Boolean push
     // Hostname, port of the docker image registry unless Docker index is used
+    @Input
     String registry
 
     /**
@@ -63,6 +72,7 @@ class DockerTask extends DefaultTask {
     /**
      * Name of the base docker image
     */
+    @Input
     String baseImage
     public String getBaseImage() {
         return determineBaseImage()
@@ -87,19 +97,27 @@ class DockerTask extends DefaultTask {
     }
 
     // Dockerfile instructions (ADD, RUN, etc.)
+    @Input
     def instructions
     // Dockerfile staging area i.e. context dir
+    @Input
     File stageDir
     // Tasks necessary to setup the stage before building an image
+    @Input
     def stageBacklog
     
     // Should we use Docker's remote API instead of the docker executable
+    @Input
     Boolean useApi
     // URL of the remote Docker host (default: localhost)
+    @Input
     String hostUrl
     // Docker remote API credentials
+    @Input
     String apiUsername
+    @Input
     String apiPassword
+    @Input
     String apiEmail
 
     DockerTask() {

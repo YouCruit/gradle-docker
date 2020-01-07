@@ -39,6 +39,6 @@ public enum JavaBaseImage {
                 return image;
             }
         }
-        throw new IllegalArgumentException("No Java base image for the supplied target " + target + " found.");
+        throw new IllegalArgumentException("No default Java base image for the supplied target " + target + " found. Base image needs to be set explicitly.");
     }
 }
