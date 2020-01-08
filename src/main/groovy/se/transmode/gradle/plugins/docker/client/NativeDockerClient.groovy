@@ -52,11 +52,17 @@ class NativeDockerClient implements DockerClient {
                 throw new GradleException("Docker execution failed\nCommand line [${cmdLine}] returned:\n${process.err.text}")
             }
         } finally {
-            def x = process.err.text.trim()
-            if (!x.isEmpty()) {
-                log.error(x)
+            try {
+                def x = process.err.text.trim()
+                if (!x.isEmpty()) {
+                    log.error(x)
+                }
+            } catch (ignored) {
             }
-            log.info(process.in.text)
+            try {
+                log.info(process.in.text)
+            } catch (ignored) {
+            }
         }
     }
 
