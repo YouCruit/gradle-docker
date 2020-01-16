@@ -44,11 +44,11 @@ class NativeDockerClient implements DockerClient {
         executeAndWait(cmdLine)
     }
 
-    private class CollectOutput extends Thread {
+    private static class CollectOutput extends Thread {
         String output
         private InputStream is;
 
-        CollectOutput(InputStream is) {
+        CollectOutput(is) {
             this.is = is;
         }
 
