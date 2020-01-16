@@ -44,26 +44,39 @@ class NativeDockerClient implements DockerClient {
         executeAndWait(cmdLine)
     }
 
-    private static String executeAndWait(String cmdLine) {
-        def process = cmdLine.execute()
-        try {
-            process.waitFor()
-            if (process.exitValue()) {
-                throw new GradleException("Docker execution failed\nCommand line [${cmdLine}] returned:\n${process.err.text}")
-            }
-        } finally {
-            try {
-                def x = process.err.text.trim()
-                if (!x.isEmpty()) {
-                    log.error(x)
-                }
-            } catch (ignored) {
-            }
-            try {
-                log.info(process.in.text)
-            } catch (ignored) {
-            }
+    private class CollectOutput extends Thread {
+        String output
+        private InputStream is;
+
+        CollectOutput(InputStream is) {
+            this.is = is;
+        }
+
+        @Override
+        void run() {
+            log.warn("Getting output with $this")
+            output = is.text
+            log.warn("Done getting output with $this")
         }
     }
 
+    private static String executeAndWait(String cmdLine) {
+        def process = cmdLine.execute()
+        def stdin = new CollectOutput(process.in)
+        def stderr = new CollectOutput(process.err)
+        try {
+            stdin.start()
+            stderr.start()
+            if (process.exitValue()) {
+                throw new GradleException("Docker execution failed\nCommand line [${cmdLine}] returned:\n${stderr.output}")
+            }
+        } finally {
+            if (!stderr.output.isEmpty()) {
+                log.error(stderr.output)
+            }
+            if (!stdin.output.isEmpty()) {
+                log.info(stdin.output)
+            }
+        }
+    }
 }
