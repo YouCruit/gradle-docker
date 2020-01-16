@@ -67,6 +67,9 @@ class NativeDockerClient implements DockerClient {
         try {
             stdin.start()
             stderr.start()
+            process.waitFor()
+            stdin.join()
+            stderr.join()
             if (process.exitValue()) {
                 throw new GradleException("Docker execution failed\nCommand line [${cmdLine}] returned:\n${stderr.output}")
             }
