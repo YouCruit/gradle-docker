@@ -54,9 +54,9 @@ class NativeDockerClient implements DockerClient {
 
         @Override
         void run() {
-            log.warn("Getting output with $this")
+            log.quiet("Getting output with $this")
             output = is.text
-            log.warn("Done getting output with $this")
+            log.quiet("Done getting output with $this")
         }
     }
 
